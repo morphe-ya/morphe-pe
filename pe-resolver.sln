@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35219.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pe-resolver", "pe-resolver\pe-resolver.vcxproj", "{930A1AE5-8073-408A-8C13-3DF6AF4D9197}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		stable|x64 = stable|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{930A1AE5-8073-408A-8C13-3DF6AF4D9197}.stable|x64.ActiveCfg = stable|x64
+		{930A1AE5-8073-408A-8C13-3DF6AF4D9197}.stable|x64.Build.0 = stable|x64
+		{930A1AE5-8073-408A-8C13-3DF6AF4D9197}.stable|x64.Deploy.0 = stable|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C018DC03-9907-4902-87E0-9F2897452DE3}
+	EndGlobalSection
+EndGlobal

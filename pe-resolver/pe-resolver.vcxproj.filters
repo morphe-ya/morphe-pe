@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="includes\includes.hpp" />
+    <ClInclude Include="pe\pe.hpp" />
+    <ClInclude Include="utils\process\process.hpp" />
+    <ClInclude Include="offsets\offsets.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="pe\pe.cpp" />
+    <ClCompile Include="utils\process\process.cpp" />
+    <ClCompile Include="offsets\offsets.cpp" />
+  </ItemGroup>
+</Project>
