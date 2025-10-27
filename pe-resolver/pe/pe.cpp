@@ -1,6 +1,5 @@
 #include "pe.hpp"
 
-#include "../offsets/offsets.hpp"
 #include "../utils/process/process.hpp"
 
 namespace pe {
@@ -18,7 +17,7 @@ namespace pe {
 		MmCopyVirtualMemory( process, ( void* )base, PsGetCurrentProcess( ), &dos_header, sizeof( IMAGE_DOS_HEADER ), KernelMode, &bytes );
 
 		if ( dos_header.e_magic != IMAGE_DOS_SIGNATURE ) {
-			DbgPrintEx( 0, 0, "[2]\n" );
+			ObDereferenceObject( process );
 			return false;
 		}
 
@@ -32,15 +31,13 @@ namespace pe {
 
 		if ( !buffer ) {
 			ObDereferenceObject( process );
-			DbgPrintEx( 0, 0, "[3]\n" );
 			return false;
 		}
 
-		ObDereferenceObject( process );
-
 		if ( !NT_SUCCESS( MmCopyVirtualMemory( process, ( void* )base, PsGetCurrentProcess( ), buffer, header_size, KernelMode, &bytes ) ) ) {
 			ExFreePoolWithTag( buffer, 'zaya' );
-			DbgPrintEx( 0, 0, "[4]\n" );
+			ObDereferenceObject( process );
+
 			return false;
 		}
 
@@ -48,9 +45,12 @@ namespace pe {
 
 		if ( !nt_headers ) {
 			ExFreePoolWithTag( buffer, 'zaya' );
-			DbgPrintEx( 0, 0, "[5]\n" );
+			ObDereferenceObject( process );
+
 			return false;
 		}
+
+		ObDereferenceObject( process );
 
 		*out_nt_headers = nt_headers;
 		*out_buffer = buffer;
@@ -77,7 +77,7 @@ namespace pe {
 			char name[ 9 ]{ };
 			RtlCopyMemory( name, section[ idx ].Name, 8 );
 
-			DbgPrintEx( 0, 0, "[+]    %s [%i] VA: 0x%p Size: 0x%p\n", name, idx, section[ idx ].VirtualAddress, section[ idx ].Misc.VirtualSize );
+			DbgPrintEx( 0, 0, "[+]    %s [ %i ] VA: 0x%p Size: 0x%x\n", name, idx, section[ idx ].VirtualAddress, section[ idx ].Misc.VirtualSize );
 		}
 	}
 
@@ -136,7 +136,7 @@ namespace pe {
 						if ( !process::read( pid, base, nt_headers, ( ULONG )thunks[ idx ] + FIELD_OFFSET( IMAGE_IMPORT_BY_NAME, Name ), procedure, sizeof( procedure ) - 1 ) )
 							continue;
 
-						DbgPrintEx( 0, 0, "[+]    %s [HINT: %x]\n", procedure, import.Hint );
+						DbgPrintEx( 0, 0, "[+]     from %s => %s [ HINT: %x ]\n", dll_name[ 0 ] ? dll_name : "Empty", procedure, import.Hint );
 					}
 				}
 			}

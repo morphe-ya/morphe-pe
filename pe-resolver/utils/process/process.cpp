@@ -52,15 +52,17 @@ namespace process {
 	}
 
 	uint64_t get_base_address( HANDLE pid ) {
-		PEPROCESS temp_process{ };
+		PEPROCESS process{ };
 
-		if ( !NT_SUCCESS( PsLookupProcessByProcessId( pid, &temp_process ) ) )
+		if ( !NT_SUCCESS( PsLookupProcessByProcessId( pid, &process ) ) )
 			return 0;
 
-		const auto& base_address = PsGetProcessSectionBaseAddress( temp_process );
+		const auto& base_address = PsGetProcessSectionBaseAddress( process );
 
 		if ( !base_address )
 			return 0;
+
+		ObDereferenceObject( process );
 
 		return reinterpret_cast< uint64_t >( base_address );
 	}

@@ -24,7 +24,7 @@ NTSTATUS driver_entry( ) {
 		return STATUS_UNSUCCESSFUL;
 	}
 
-	DbgPrintEx( 0, 0, "[+] pid: %p\n", ( uint64_t )pid );
+	DbgPrintEx( 0, 0, "[+] pid: %x\n", pid );
 	DbgPrintEx( 0, 0, "[+] address: %p\n", address );
 
 	pe::get( pid, address );
